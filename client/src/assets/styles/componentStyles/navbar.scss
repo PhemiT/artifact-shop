@@ -1,0 +1,14 @@
+@import "../variables";
+
+.nav_main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 40px;
+
+    h1 {
+        color: $text-dark;
+        font-family: $style-fnt;
+    }
+}
