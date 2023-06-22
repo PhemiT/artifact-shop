@@ -1,16 +1,9 @@
-import React, {useState,useEffect} from 'react'
+import React from 'react';
+import axios from 'axios';
 
-const Items = () => {
-    const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:8000/message")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message));
-  }, []);
-
+const Items:React.FC = () => {
   return (
-    <div>{message}</div>
+    <div></div>
   )
 }
 

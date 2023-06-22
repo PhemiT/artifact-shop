@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const InitiateMongoServer = require('./db/conn');
-const routes = require('./routes/routes');
+const api = require('./routes/api');
+const auth = require('./routes/auth');
 
 const app = express();
 
@@ -10,7 +11,8 @@ app.use(express.json());
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
   }
-app.use('/api', routes)
+app.use('/api', api);
+app.use('/auth', auth);
 
 
 InitiateMongoServer();
