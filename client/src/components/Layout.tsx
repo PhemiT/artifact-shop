@@ -1,5 +1,5 @@
-import React from 'react'
-import Navbar from "./Navbar"
+import React from 'react';
+import Navbar from "./Navbar";
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -9,8 +9,8 @@ type LayoutProps = {
 const Layout:React.FC<LayoutProps> = (props) => {
   return (
     <>
-        <Navbar />
-        {props.children}
+          <Navbar />
+          {props.children}
     </>
   )
 }

@@ -10,11 +10,7 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please input password'],
         type: String,
         unique: false
-    },
-    /* role: {
-        type: String,
-        default: ["Client"]
-    } */
+    }
 });
 
 module.exports = mongoose.model('Users', userSchema);

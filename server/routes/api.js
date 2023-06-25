@@ -22,8 +22,18 @@ router.post('/add-item', (req, res) => {
         res.status(500).send('Error saving item');
       });
   });
-  
 
+// Search items
+router.post('/search-items', async (req, res) => {
+  const query = new RegExp('^' + req.body.query, 'i');
+  const allItems = await itemModel.find({name: { $regex: query }});
+  if (!allItems || allItems.length === 0) {
+    res.status(400).send({err: "No item found"});
+    return;
+  }
+  res.status(200).send(allItems);
+});
+  
 //Get all items
 router.get('/get-items', (req, res) => {
     itemModel.find()

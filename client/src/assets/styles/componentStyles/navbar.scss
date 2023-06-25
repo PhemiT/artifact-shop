@@ -5,10 +5,39 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    padding: 40px;
+    padding-block: 40px;
+    margin-inline: 55px;
 
     h1 {
         color: $text-dark;
         font-family: $style-fnt;
     }
+}
+
+.side_keys {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+   .search_bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #D2B7D2;
+    border: 1.85px solid $text-dark;
+    border-radius: 25px;
+    padding: 7px 15px;
+
+    ::placeholder {
+        color: $text-dark;
+        font-weight: 550;
+    }
+
+    input {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        width: 300px;
+    }
+   } 
 }

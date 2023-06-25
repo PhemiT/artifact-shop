@@ -28,9 +28,13 @@ footer, header, hgroup, menu, nav, section {
 
 body {
 	line-height: 1;
-	background-color: $bg-decade;
+	background-color: $bg-main;
 	font-family: $inter-fnt;
 	color: $text-dark;
+}
+
+* {
+	font-family: $inter-fnt;
 }
 
 ol, ul {
@@ -57,9 +61,11 @@ table {
 }
 
 h1 {
-	font-size: 78px;
+	font-size: 32px;
 }
 
 h2 {
 	font-size: 50px;
+	font-family: $head-fnt;
+	font-weight: bolder;
 }
