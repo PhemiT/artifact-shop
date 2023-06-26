@@ -39,14 +39,14 @@ const Register:React.FC = () => {
   const validateExists = async (e:React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 4) {
       const query = e.target.value;
-      const response = await axios.post('https://artifact-shop-api.onrender.com/auth/validate-exists', { query });
+      const response = await axios.post('http://localhost:8000/auth/validate-exists', { query });
       return response.data;
     }
   }
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('https://artifact-shop-api.onrender.com/auth/register', {
+    axios.post('http://localhost:8000/auth/register', {
       email: user.email,
       username: user.username,
       password: user.password,
@@ -88,7 +88,7 @@ const Register:React.FC = () => {
         placeholder='youremail@example.com'
         />
         {
-          emailExists != "" ? <p>{emailExists}</p> : ""
+          emailExists !== "" ? <p>{emailExists}</p> : ""
         }
         </span>
         <span>
@@ -105,7 +105,7 @@ const Register:React.FC = () => {
         placeholder='Enter a unique username...'
         />
         {
-          usernameExists != "" ? <p>{usernameExists}</p> : ""
+          usernameExists !== "" ? <p>{usernameExists}</p> : ""
         }
         </span>
         <span>
@@ -118,7 +118,7 @@ const Register:React.FC = () => {
         placeholder='Enter secure password...'
         />
         </span>
-        <p>Already got an account? <Link to='/login'>Login</Link></p>
+        <p>Already got an account 😏? <Link to='/login'>Login</Link></p>
         <button type='submit'>Register</button>
       </form>
     </div>

@@ -21,7 +21,8 @@ const Navbar:React.FC = () => {
     <div className='header_main'>
         <div className="side_keys">
           <Link to = '/'>
-            <h1>Artie's Artefacts</h1>
+            <h1>Artie's</h1>
+            <h1>Artefacts.</h1>
           </Link>
           <div className="search_bar">
             <MagnifyingGlass size={20} />

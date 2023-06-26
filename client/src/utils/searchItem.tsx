@@ -4,7 +4,7 @@ import axios,{ AxiosError } from "axios";
 const searchItems = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     try {
-      const response = await axios.post('https://artifact-shop-api.onrender.com/api/search-items', { query });
+      const response = await axios.post('http://localhost:8000/api/search-items', { query });
       return response.data;
     } catch (err) {
       if (axios.isAxiosError(err)) {
