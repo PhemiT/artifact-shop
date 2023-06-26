@@ -1,17 +1,32 @@
 import React, {useState} from 'react';
 import '../assets/styles/register.scss';
 import axios, { AxiosError } from 'axios';
+import { Link } from 'react-router-dom';
 
 const Register:React.FC = () => {
   interface userState {
+    email: string;
     username: string;
     password: string;
   };
 
   const [user,setUser] = useState<userState>({
+    email: "",
     username: "",
     password: ""
   });
+  const [usernameExists,setUsernameExists] = useState("");
+  const [emailExists, setEmailExists] = useState("");
+
+  const resetState = () => {
+    setUsernameExists("");
+    setEmailExists("");
+    setUser({
+      email: "",
+      username: "",
+      password: ""
+    });
+  }
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -21,28 +36,18 @@ const Register:React.FC = () => {
     });
   };
 
-  const validateUsername = async (e:React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    try {
-      const response = await axios.post('http://localhost:8000/auth/validate-username', { query });
-      console.log(response.data);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        const error = err as AxiosError;
-        if (error.response?.status === 400) {
-          console.log('Username exists', error);
-        } else {
-          console.log('Unexpected error', error);
-        }
-      } else {
-        console.log('Unexpected error', err);
-      }
+  const validateExists = async (e:React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 4) {
+      const query = e.target.value;
+      const response = await axios.post('https://artifact-shop-api.onrender.com/auth/validate-exists', { query });
+      return response.data;
     }
   }
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('http://localhost:8000/auth/register', {
+    axios.post('https://artifact-shop-api.onrender.com/auth/register', {
+      email: user.email,
       username: user.username,
       password: user.password,
     }).then(()=>{
@@ -62,6 +67,7 @@ const Register:React.FC = () => {
     }
     alert('An error occurred');
   });
+  resetState();
 }
 
   return (
@@ -69,17 +75,38 @@ const Register:React.FC = () => {
       <h1>Sign Up</h1>
       <form action="post" onSubmit={handleSubmit}>
         <span>
+        <label htmlFor="email">Email:</label>
+        <input 
+        type="email"
+        name='email'
+        value={user.email}
+        onChange={async (e) => {
+          handleChange(e);
+          const data = await validateExists(e);
+          e.target.value.length >= 4 ? setEmailExists(data) : setEmailExists("");
+        }}
+        placeholder='youremail@example.com'
+        />
+        {
+          emailExists != "" ? <p>{emailExists}</p> : ""
+        }
+        </span>
+        <span>
         <label htmlFor="username">Username:</label>
         <input 
         type="text"
         name='username'
         value={user.username}
-        onChange={(e) => {
+        onChange={ async (e) => {
           handleChange(e);
-          validateUsername(e);
+          const data = await validateExists(e);
+          e.target.value.length >= 4 ? setUsernameExists(data)  : setUsernameExists("");
         }}
         placeholder='Enter a unique username...'
         />
+        {
+          usernameExists != "" ? <p>{usernameExists}</p> : ""
+        }
         </span>
         <span>
         <label htmlFor="password">Password:</label>
@@ -91,6 +118,7 @@ const Register:React.FC = () => {
         placeholder='Enter secure password...'
         />
         </span>
+        <p>Already got an account? <Link to='/login'>Login</Link></p>
         <button type='submit'>Register</button>
       </form>
     </div>

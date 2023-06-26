@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.scss';
-import { Home, Cart, Products, Register, AddItem } from './modules'
+import { Home, Cart, Products, Register, Login, AddItem } from './modules'
 import Layout from './components/Layout';
 
 
@@ -15,6 +15,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/products" element={<Products />} />
             <Route path="/register" element={<Register />} />
+            <Route path='/login' element={<Login />} />
             <Route path="/add-item" element={<AddItem />} />
           </Routes>
         </Layout>

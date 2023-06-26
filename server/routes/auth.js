@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
-const userModel = require('../models/userModel');
 
 router.post('/register', (req, res) => {
     console.log(req.body)
@@ -15,6 +14,7 @@ router.post('/register', (req, res) => {
     bcrypt.hash(req.body.password, 10)
     .then((hashedPassword) => {
         const user = new User({
+            email: req.body.email,
             username: req.body.username,
             password: hashedPassword
         });
@@ -43,7 +43,13 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     const userQuery = new RegExp(`^${req.body.username}$`, 'i')
-    User.findOne({ username: userQuery })
+    User.findOne({ 
+        $or: 
+        [
+            { username: { $regex: userQuery } },
+            { email: { $regex: userQuery } }
+        ]
+    })
     .then((user) => {
         bcrypt.compare(req.body.password, user.password)
         .then((passCheck) => {
@@ -83,14 +89,20 @@ router.post('/login', (req, res) => {
     });
 })
 
-router.post('/validate-username', async (req, res) => {
-    const query = req.body.query;
-    const userQuery = await userModel.findOne({username: { $regex: new RegExp(`^${query}$`, 'i') }});
+router.post('/validate-exists', async (req, res) => {
+    const query = new RegExp(`^${req.body.query}$`, 'i');
+    const userQuery = await User.findOne({ 
+        $or: 
+        [
+            { username: { $regex: query } },
+            { email: { $regex: query } }
+        ]
+    });
     if (userQuery) {
-        res.status(400).send(`${query} already exists`);
+        res.status(200).send(`${req.body.query} already exists`);
         return;
     }
-    res.status(200).send(`${query} is available`)
+    res.status(200).send(`${req.body.query} is available`)
 })
 
 

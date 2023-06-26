@@ -47,5 +47,26 @@
             padding: 7px 15px;
             width: 300px;
         }
+
+        button {
+            background-color: $text-dark;
+            color: #D2B7D2;
+            font-size: 15px;
+            border: 0.1px solid transparent;
+            border-radius: 25px;
+            padding: 7.8px 20px ;
+            margin-top: 10px;
+        }
+
+        p {
+            align-self: flex-start;
+            font-size: 15px;
+            font-weight: 600;
+
+            a {
+                color: $text-dark;
+                text-decoration: underline;
+            }
+        }
     }
 }

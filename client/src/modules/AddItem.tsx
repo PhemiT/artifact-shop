@@ -28,7 +28,7 @@ const AddItem:React.FC = () => {
 
   const handleSubmit = (e:any) => {
     e.preventDefault();
-    axios.post('http://localhost:8000/api/add-item', {
+    axios.post('https://artifact-shop-api.onrender.com/api/add-item', {
       name: itemState.name,
       image: itemState.image,
       desc: itemState.desc,
