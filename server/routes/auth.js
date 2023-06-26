@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel')
+const User = require('../models/userModel');
+const userModel = require('../models/userModel');
 
 router.post('/register', (req, res) => {
     console.log(req.body)
@@ -41,7 +42,8 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    User.findOne({ username: req.body.username })
+    const userQuery = new RegExp(`^${req.body.username}$`, 'i')
+    User.findOne({ username: userQuery })
     .then((user) => {
         bcrypt.compare(req.body.password, user.password)
         .then((passCheck) => {
@@ -79,6 +81,16 @@ router.post('/login', (req, res) => {
         err,
       });
     });
+})
+
+router.post('/validate-username', async (req, res) => {
+    const query = req.body.query;
+    const userQuery = await userModel.findOne({username: { $regex: new RegExp(`^${query}$`, 'i') }});
+    if (userQuery) {
+        res.status(400).send(`${query} already exists`);
+        return;
+    }
+    res.status(200).send(`${query} is available`)
 })
 
 

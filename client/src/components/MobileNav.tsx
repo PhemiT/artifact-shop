@@ -1,5 +1,5 @@
 import React from 'react';
-import '../assets/styles/componentStyles/navmenu.scss';
+import '../assets/styles/componentStyles/mobilenav.scss';
 import { EyeClosed } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 

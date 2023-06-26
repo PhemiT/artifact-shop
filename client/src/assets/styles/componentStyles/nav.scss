@@ -1,0 +1,18 @@
+@import '../variables';
+
+.nav_main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    a {
+        color: $text-dark;
+        font-weight: 600;
+        text-transform: lowercase;
+
+        &:hover {
+            color: #CADECA;
+        }
+    }
+}

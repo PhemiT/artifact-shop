@@ -26,7 +26,12 @@ router.post('/add-item', (req, res) => {
 // Search items
 router.post('/search-items', async (req, res) => {
   const query = new RegExp('^' + req.body.query, 'i');
-  const allItems = await itemModel.find({name: { $regex: query }});
+  const allItems = await itemModel.find({
+    $or: [
+      { name: { $regex: query } },
+      { collectorName: { $regex: query } }
+    ]
+  });
   if (!allItems || allItems.length === 0) {
     res.status(400).send({err: "No item found"});
     return;

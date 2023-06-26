@@ -1,0 +1,51 @@
+@import './utilities';
+@import './variables';
+
+.register_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-top: 40px;
+
+    h1 {
+        font-family: $style-fnt;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 15px;
+
+        span {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        ::placeholder {
+            color: $text-dark;
+            font-weight: 550;
+        }
+    
+        input {
+            outline: none;
+            border: none;
+            background-color: #D2B7D2;
+            border: 1.85px solid $text-dark;
+            border-radius: 25px;
+            padding: 7px 15px;
+            width: 300px;
+        }
+    }
+}

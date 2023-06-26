@@ -1,12 +1,13 @@
 @import "../variables";
 
-.nav_main{
+.header_main{
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
     padding-block: 40px;
-    margin-inline: 55px;
+    margin: 0 auto;
+    width: $container-lg;
 
     h1 {
         color: $text-dark;
@@ -40,4 +41,19 @@
         width: 300px;
     }
    } 
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+.mobile_nav {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .mobile_nav {
+        display: block;
+    }
 }
