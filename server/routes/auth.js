@@ -75,14 +75,14 @@ router.post('/login', (req, res) => {
             })
         })
         .catch((err) => {
-            res.status(400).send({
+            res.status(400).json({
                 message: "Incorrect Password",
                 err
             })
         })
     })
     .catch((err) => {
-      response.status(404).send({
+      response.status(404).json({
         message: "User doesn't Exist",
         err,
       });
@@ -99,10 +99,10 @@ router.post('/validate-exists', async (req, res) => {
         ]
     });
     if (userQuery) {
-        res.status(200).send(`${req.body.query} already exists`);
+        res.status(200).json({ message: `${req.body.query} already exists` });
         return;
     }
-    res.status(200).send(`${req.body.query} is available`)
+    res.status(200).json({ message: `${req.body.query} is available` });
 })
 
 

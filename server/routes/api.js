@@ -33,7 +33,7 @@ router.post('/search-items', async (req, res) => {
     ]
   });
   if (!allItems || allItems.length === 0) {
-    res.status(400).send({err: "No item found"});
+    res.status(200).json({err: "No item found"});
     return;
   }
   res.status(200).send(allItems);
