@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../assets/styles/register.scss'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { GoogleLogo } from '@phosphor-icons/react';
 
 const Login: React.FC= () => {
   interface userState {
@@ -58,9 +59,12 @@ const Login: React.FC= () => {
           placeholder='Enter your password...'
           />
         </span>
-        <p>Did you just get here 😦? <Link to='/register'>Signup</Link></p>
+        <p>Just got here🙂?<Link to='/register'>Signup</Link></p>
         <button type='submit'>Login</button>
       </form>
+      <button>
+        Login with Google <GoogleLogo size={24} weight='fill'/>
+      </button>
     </div>
   )
 }

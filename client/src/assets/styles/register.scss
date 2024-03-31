@@ -6,8 +6,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    padding-top: 40px;
+    gap: 15px;
+    padding-block: 25px;
 
     h1 {
         font-family: $style-fnt2;
@@ -19,7 +19,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
 
         span {
             display: flex;
@@ -49,16 +49,6 @@
             width: 300px;
         }
 
-        button {
-            background-color: $text-dark;
-            color: #D2B7D2;
-            font-size: 15px;
-            border: 0.1px solid transparent;
-            border-radius: 25px;
-            padding: 7.8px 20px ;
-            margin-top: 10px;
-        }
-
         p {
             align-self: flex-start;
             font-size: 15px;
@@ -70,4 +60,29 @@
             }
         }
     }
+
+    button {
+            background-color: $text-dark;
+            color: #D2B7D2;
+            font-size: 15px;
+            font-weight: 800;
+            border: 1.85px solid transparent;
+            border-radius: 25px;
+            padding: 7.8px 20px ;
+            margin-top: 10px;
+            width: 330px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: all 500ms ease;
+        }
+
+        button:hover {
+            background-color: #D2B7D2;
+            color: $text-dark;
+            border-color: $text-dark;
+        }
 }

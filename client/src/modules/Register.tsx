@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import '../assets/styles/register.scss';
 import axios, { AxiosError } from 'axios';
 import { Link } from 'react-router-dom';
+import {GoogleLogo} from '@phosphor-icons/react';
 
 const Register:React.FC = () => {
   interface userState {
@@ -34,19 +35,33 @@ const Register:React.FC = () => {
       ...user,
       [e.target.name]: value
     });
+    if (e.target.name === 'email' && value.includes('@') && value.split('@')[1].length >= 5) {
+      validateExists(e, 'email');
+    } else if (e.target.name === 'username' && value.length >= 5) {
+      validateExists(e, 'username');
+    } else {
+      if (e.target.name === 'email') {
+        setEmailExists('');
+      } else if (e.target.name === 'username') {
+        setUsernameExists('');
+      }
+    }
+  
   };
 
-  const validateExists = async (e:React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 4) {
+  const validateExists = async (e:React.ChangeEvent<HTMLInputElement>, fieldName?: string) => {
       const query = e.target.value;
-      const response = await axios.post('http://localhost:8000/auth/validate-exists', { query });
-      return response.data;
-    }
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/validate-exists`, { query });
+      if (fieldName === 'email') {
+        setEmailExists(response.data.message);
+      } else if (fieldName === 'username') {
+        setUsernameExists(response.data.message);
+      }
   }
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post('http://localhost:8000/auth/register', {
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
       email: user.email,
       username: user.username,
       password: user.password,
@@ -70,6 +85,10 @@ const Register:React.FC = () => {
   resetState();
 }
 
+const handleGoogleLogin = async () => {
+  window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
+};
+
   return (
     <div className='uniform-margin register_main'>
       <h1>Sign Up</h1>
@@ -82,8 +101,6 @@ const Register:React.FC = () => {
         value={user.email}
         onChange={async (e) => {
           handleChange(e);
-          const data = await validateExists(e);
-          e.target.value.length >= 4 ? setEmailExists(data) : setEmailExists("");
         }}
         placeholder='youremail@example.com'
         />
@@ -99,8 +116,6 @@ const Register:React.FC = () => {
         value={user.username}
         onChange={ async (e) => {
           handleChange(e);
-          const data = await validateExists(e);
-          e.target.value.length >= 4 ? setUsernameExists(data)  : setUsernameExists("");
         }}
         placeholder='Enter a unique username...'
         />
@@ -118,9 +133,12 @@ const Register:React.FC = () => {
         placeholder='Enter secure password...'
         />
         </span>
-        <p>Already got an account 😏? <Link to='/login'>Login</Link></p>
-        <button type='submit'>Register</button>
+        <p>Already got an account😄? <Link to='/login'>Login</Link></p>
+        <button type='submit'>Signup</button>
       </form>
+        <button onClick={handleGoogleLogin}>
+          Signup with Google <GoogleLogo size={24} weight='fill'/>
+        </button>
     </div>
   )
 }

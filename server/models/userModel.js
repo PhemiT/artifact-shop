@@ -12,10 +12,10 @@ const userSchema = new mongoose.Schema({
         unique: [true, 'Username already exists']
     },
     password: {
-        required: [true, 'Please input password'],
         type: String,
         unique: false
-    }
+    },
+    googleId: String,
 });
 
 module.exports = mongoose.model('Users', userSchema);

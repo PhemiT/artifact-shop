@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const passport = require('../config/passport');
+
 
 router.post('/register', (req, res) => {
     console.log(req.body)
@@ -104,6 +106,38 @@ router.post('/validate-exists', async (req, res) => {
     }
     res.status(200).json({ message: `${req.body.query} is available` });
 })
+
+// Google Authentication Routes
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+router.get('/google/callback', (req, res) => {
+    passport.authenticate('google', async (err, user, info) => {
+      if (err) {
+        console.error('Google authentication error:', err);
+        return res.redirect('/failure?error=' + encodeURIComponent(err.message));
+      }
+  
+      if (!user) {
+        console.error('Google authentication failed:', info);
+        return res.redirect('/failure?error=' + encodeURIComponent(info.message || 'Authentication failed'));
+      }
+  
+      try {
+        const token = jwt.sign(
+          { userId: user._id, userName: user.username },
+          'YOUR_SECRET_KEY',
+          { expiresIn: '24h' }
+        );
+  
+        res.redirect(`http://localhost:3000?token=${token}`);
+      } catch (err) {
+        console.error('Error generating token:', err);
+        return res.redirect('/failure?error=' + encodeURIComponent(err.message));
+      }
+    })(req, res);
+  });
 
 
 module.exports = router;
