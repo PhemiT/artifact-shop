@@ -85,7 +85,7 @@ const Register:React.FC = () => {
   resetState();
 }
 
-const handleGoogleLogin = async () => {
+const handleGoogleLogin = () => {
   window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
 };
 

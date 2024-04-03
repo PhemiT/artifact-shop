@@ -6,7 +6,7 @@ const Home:React.FC = () => {
   return (
     <div className='home_main uniform-margin'>
         <section className="explore_main">
-            <h2>Explore Rarest Items</h2>
+            <h1>Explore Rare Treasures, Trade your Artifacts</h1>
             <Items />
         </section>
     </div>

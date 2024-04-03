@@ -35,6 +35,10 @@ const Login: React.FC= () => {
     })
   }
 
+  const handleGoogleLogin = async () => {
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
+  };
+
   return (
     <div className='uniform-margin register_main'>
       <h1>Login</h1>
@@ -62,7 +66,7 @@ const Login: React.FC= () => {
         <p>Just got here🙂?<Link to='/register'>Signup</Link></p>
         <button type='submit'>Login</button>
       </form>
-      <button>
+      <button onClick={handleGoogleLogin}>
         Login with Google <GoogleLogo size={24} weight='fill'/>
       </button>
     </div>
