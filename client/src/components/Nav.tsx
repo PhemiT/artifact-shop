@@ -3,9 +3,15 @@ import '../assets/styles/componentStyles/nav.scss';
 import { Link } from 'react-router-dom';
 import {ShoppingBag } from '@phosphor-icons/react';
 import Profile from './Profile';
+import { useNavigate } from 'react-router-dom'
 
 const Nav:React.FC = () => {
-  const [user,setUser] = useState(null);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    navigate('/login');
+  }
 
   return (
     <div className='nav_main'>
@@ -15,10 +21,12 @@ const Nav:React.FC = () => {
           !user ?
           <>
             <Link to='/register'>Signup</Link>
-            <Link to='/login'>Login</Link>
           </>
           :
+          <>
           <Profile />
+          <button onClick={logout}>Logout</button>
+          </>
         }
         <Link to='/cart'><ShoppingBag size={27} /></Link>
     </div>

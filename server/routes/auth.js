@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const passport = require('../config/passport');
 
+require('dotenv').config('../../server');
+
 
 router.post('/register', (req, res) => {
     console.log(req.body)
@@ -22,10 +24,18 @@ router.post('/register', (req, res) => {
         });
         user.save()
         .then((user) => {
-            res.status(201).send({
-                message: 'User Created.',
-                user,
-            });
+            const token = jwt.sign(
+                { 
+                    userId: user._id,
+                    userName: user.username
+                }, 
+                process.env.JWT_SECRET, 
+                { expiresIn: "3h" });
+
+                res.status(201).send({
+                    message: 'User Created.',
+                    token
+                }).cookie('jwt', token, { httpOnly: true, secure: true });
         }).catch((err) => {
             console.error(err);
             res.status(500).send({
@@ -66,15 +76,14 @@ router.post('/login', (req, res) => {
                     userId: user._id,
                     userName: user.username
                 },
-                "RANDOM-TOKEN",
-                { expiresIn: "24h" }
+                process.env.JWT_SECRET,
+                { expiresIn: "3h" }
             )
 
             res.status(200).send({
                 message: "Login succesful",
-                user: user.username,
                 token
-            })
+            }).cookie('jwt', token, { httpOnly: true, secure: true });
         })
         .catch((err) => {
             res.status(400).json({
@@ -126,12 +135,15 @@ router.get('/google/callback', (req, res) => {
   
       try {
         const token = jwt.sign(
-          { userId: user._id, userName: user.username },
-          'YOUR_SECRET_KEY',
-          { expiresIn: '24h' }
+        { 
+            userId: user._id, 
+            userName: user.username
+        },
+          process.env.JWT_SECRET,
+          { expiresIn: '1m' }
         );
   
-        res.redirect(`http://localhost:3000?token=${token}`);
+        res.redirect(`${process.env.CLIENT_APP_URL}?token=${token}`);
       } catch (err) {
         console.error('Error generating token:', err);
         return res.redirect('/failure?error=' + encodeURIComponent(err.message));

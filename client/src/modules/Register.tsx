@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import '../assets/styles/register.scss';
 import axios, { AxiosError } from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import {GoogleLogo} from '@phosphor-icons/react';
 
 const Register:React.FC = () => {
@@ -18,6 +18,7 @@ const Register:React.FC = () => {
   });
   const [usernameExists,setUsernameExists] = useState("");
   const [emailExists, setEmailExists] = useState("");
+  const navigate = useNavigate();
 
   const resetState = () => {
     setUsernameExists("");
@@ -51,7 +52,7 @@ const Register:React.FC = () => {
 
   const validateExists = async (e:React.ChangeEvent<HTMLInputElement>, fieldName?: string) => {
       const query = e.target.value;
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/validate-exists`, { query });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/validate-exists`, { query });
       if (fieldName === 'email') {
         setEmailExists(response.data.message);
       } else if (fieldName === 'username') {
@@ -59,31 +60,27 @@ const Register:React.FC = () => {
       }
   }
 
-  const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
-      email: user.email,
-      username: user.username,
-      password: user.password,
-    }).then(()=>{
-      // Item Added 
-      alert('Account created');
-  }).catch((err: AxiosError) => {
-    // Handle error
-    console.error(err);
-    if (err.response) {
-      console.log(err.response.data);
-      console.log(err.response.status);
-      console.log(err.response.headers);
-    } else if (err.request) {
-      console.log(err.request);
-    } else {
-      console.log('Error', err.message);
+  
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
+        email: user.email,
+        username: user.username,
+        password: user.password,
+      });
+      navigate('/');
+    } catch (err: any) {
+      console.error(err);
+      let errorMessage = 'An error occurred.';
+      if (err.response) {
+        errorMessage = err.response.data.message || errorMessage;
+      }
+      alert(errorMessage);
+    } finally {
+      resetState(); 
     }
-    alert('An error occurred');
-  });
-  resetState();
-}
+  };
 
 const handleGoogleLogin = () => {
   window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;

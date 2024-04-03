@@ -9,7 +9,7 @@ const app = express();
 
 app.use(passport.initialize());
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: `${process.env.CLIENT_APP_URL}`,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
