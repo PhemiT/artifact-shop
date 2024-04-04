@@ -51,6 +51,7 @@ const Register:React.FC = () => {
   };
 
   const validateExists = async (e:React.ChangeEvent<HTMLInputElement>, fieldName?: string) => {
+      console.log(process.env.REACT_APP_API_URL);
       const query = e.target.value;
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/validate-exists`, { query });
       if (fieldName === 'email') {
