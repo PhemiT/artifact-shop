@@ -84,6 +84,10 @@ const Register:React.FC = () => {
   };
 
 const handleGoogleLogin = () => {
+  process.env.ENV != 'dev' 
+  ? 
+  window.location.href = "http://artifact-shop-api.onrender.com/undefined/auth/google/callback" 
+  :
   window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
 };
 
